@@ -3,4 +3,5 @@ int main() {
 	printf("hello, git\n");
 	printf("hello, world\n");
 	printf("lalala");
+	printf("hahaha");
 }
