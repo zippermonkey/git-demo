@@ -1,0 +1,19 @@
+name: Python Linting
+on:
+ pull_request:
+   paths:
+     - '**/*.py'
+jobs:
+ lint:
+   runs-on: ubuntu-latest
+   steps:
+     - name: Check out code
+       uses: actions/checkout@v4
+     - name: Run Python Linter
+       uses: sunnysid3up/python-linter@master
+       with:
+         source: "."
+         pylint-options: "--rcfile=setup.cfg"
+         black-options: "--line-length 88"
+         mypy-options: "--ignore-missing-imports"
+         isort-options: "-w 88"
