@@ -1,1 +1,1 @@
-print("hello worldqweqweqweqwweqweeqwweqweqweqweqweqwewqeqweqwehello worldqweqweqweqwweqweeqwweqweqweqweqweqwewqeqweqwehello worldqweqweqweqwweqweeqwweqweqweqweqweqwewqeqweqwe!")
+print("hello world world!")
