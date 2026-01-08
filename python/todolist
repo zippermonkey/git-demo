@@ -1,0 +1,101 @@
+import os
+import json
+
+TASK_FILE = "task.json"
+
+def load_task():
+    if not os.path.exists(TASK_FILE):
+        return []
+    try:
+        with open(TASK_FILE,"r",encoding="utf-8") as f:
+            return json.load(f)
+    except json.JSONDecodeError:
+        print("Error")
+        return []
+    except Exception as e:
+        print(f"error:{e}")
+        return []
+
+def save_tasks(tasks):
+    with open(TASK_FILE,"w",encoding="utf-8") as f:
+        json.dump(tasks,f,ensure_ascii=False,indent=2)
+
+def add_task(content):
+    tasks = load_task()
+    new_task = {
+        "content": content,
+        "done": False
+    }
+    tasks.append(new_task)
+    save_tasks(tasks)
+    print(f"new task added successfully: {content}")
+    
+def show_tasks():
+    tasks = load_task()
+    if not tasks:
+        print("task is empty")
+        return 
+    print("\n====my to-do list====")
+    for index, task in enumerate(tasks,start=1):
+        status = "done" if task["done"] else "to do"
+        print(f"{index}. {status} {task["content"]}")
+    print("=================\n")
+
+def toggle_task(task_index):
+    tasks=load_task()
+    if task_index < 1 or task_index > len(tasks):
+        print("invalid index")
+        return 
+    task = tasks[task_index-1]
+    task["done"] = not task["done"]
+    save_tasks(tasks)
+    status = "done" if task["done"] else "todo"
+    print(f"status is updated: {task["content"]}->{status}")
+
+def delete_task(task_index):
+    tasks=load_task()
+    if task_index<1 or task_index >len(tasks):
+        print("invalid index")
+        return 
+    delete_task = tasks.pop(task_index-1)
+    save_tasks(tasks)
+    print(f"deleted: {delete_task["content"]}")
+    
+def main():
+    print("welcome to-do list")
+    while True:
+        print("\nplease select:")
+        print("1.add")
+        print("2.show")
+        print("3.tag")
+        print("4.delete")
+        print("5.exit")
+        choice = input("please input number: ").strip()
+        if choice == "1":
+            content = input().strip()
+            if not content:
+                continue
+            add_task(content)
+        elif choice == "2":
+            show_tasks()
+        elif choice =="3":
+            show_tasks()
+            try:
+                task_index = int(input().strip())
+                toggle_task(task_index)
+            except ValueError:
+                print("please input valid number!")
+        elif choice == "4":
+            show_tasks()
+            try:
+                task_index = int(input().strip())
+                delete_task(task_index)
+            except ValueError:
+                print("please input valid number!")
+        elif choice == "5":
+            print("bye-bye")
+            break
+        else:
+            print("please input 1-5")
+if __name__ == "__main__":
+    main()
